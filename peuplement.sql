@@ -1,3 +1,6 @@
+
+--individu
+
 WbImport -file=/home/etuinfo/glollieric/Documents/BDD/partie2/v_candidatures.csv 
          -Table=_individu
          -schema= partie2
@@ -7,16 +10,7 @@ WbImport -file=/home/etuinfo/glollieric/Documents/BDD/partie2/v_candidatures.csv
          -dateFormat='yyyy-MM-dd' 
 ;
 
-
-
-CREATE table _candidature_temporaire(
-    ine char(11),
-    dominante varchar(100),
-    specialite varchar(100),
-    serie varchar(100),
-    mois_annee_obtention_bac char(40)
-);
-
+--inscription
 
 create table _inscription_tempo(
     cat_socio_etu varchar(100),
@@ -27,6 +21,7 @@ create table _inscription_tempo(
     mention varchar(100)
 );
 
+
 WbImport -file=/home/etuinfo/glollieric/Documents/BDD/partie2/v_inscriptions.csv
     -type=text
     -delimiter=';'
@@ -35,15 +30,24 @@ WbImport -file=/home/etuinfo/glollieric/Documents/BDD/partie2/v_inscriptions.csv
     -filecolumns=$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,code_nip,ine,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,cat_socio_etu,cat_socio_parent,$wb_skip$,mention,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,bourse_sup
 ;
 
+--candidat
+CREATE table _candidat_temporaire(
+    ine char(11),
+    dominante varchar(100),
+    specialite varchar(100),
+    serie varchar(100),
+    mois_annee_obtention_bac char(40)
+);
 
 WbImport -file=/home/etuinfo/glollieric/Documents/BDD/partie2/v_candidatures.csv 
     -type=text
     -delimiter=';'
     -header=true
-    -table=_candidature_temp
+    -table=_candidat_temp
     -filecolumns=$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,ine,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,serie,dominante,specialite,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,$wb_skip$,mois_annee_obtention_bac
 ;
 
+--étudiant
 
 ALTER TABLE _etudiant ALTER COLUMN serie_bac DROP NOT NULL;
 
