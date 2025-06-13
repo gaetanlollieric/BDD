@@ -79,3 +79,37 @@ ON CONFLICT (code_nip) DO NOTHING;
 
 
 SELECT * from _etudiant;
+
+--module
+
+WbImport -file=/home/etuinfo/letessier/Documents/BDD/data/ppn.csv
+-Table=_module
+-schema=partie2
+-delimiter=';'
+-header=true
+-fileColumns=id_module,ue,libelle_module;
+
+
+--semestre
+
+DROP TABLE IF EXISTS temp_semestre CASCADE;
+Create TEMP table temp_semestre
+(
+   num_semestre  varchar(5)   NOT NULL,
+   annee_univ    char(9)      NOT NULL
+);
+
+Create TEMP table temp_semestre2 AS SELECT DISTINCT * FROM temp_semestre ;
+select * from temp_semestre2
+
+WbImport -file=/home/etuinfo/letessier/Documents/BDD/data/v_programme.csv
+-Table=temp_semestre
+-schema=pg_temp_17
+-delimiter=';'
+-header=true
+-fileColumns=annee_univ,num_semestre;
+
+INSERT INTO partie2._semestre(annee_univ,num_semestre)
+SELECT annee_univ,num_semestre
+FROM temp_semestre2
+
