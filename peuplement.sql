@@ -113,3 +113,31 @@ INSERT INTO partie2._semestre(annee_univ,num_semestre)
 SELECT annee_univ,num_semestre
 FROM temp_semestre2
 
+--programme
+
+DROP TABLE IF EXISTS temp_programme CASCADE;
+CREATE TEMP TABLE temp_programme
+(
+   coefficient   numeric(3,1),
+   num_semestre  varchar(5),
+   annee_univ    char(9),
+   id_module     varchar(6)
+);
+
+WbImport -type=text
+         -file=/home/etuinfo/letessier/Documents/BDD/data/v_programme.csv
+         -table=temp_programme
+         -delimiter=';'
+         -encoding=UTF-8
+         -fileColumns=annee_univ, num_semestre, id_module, coefficient
+         -header=true
+         -mode=INSERT
+         ;
+         
+
+INSERT INTO _programme (coefficient, num_semestre, annee_univ, id_module)
+SELECT DISTINCT coefficient, num_semestre, annee_univ, id_module
+FROM temp_programme
+ON CONFLICT DO NOTHING;
+
+select * from _programme
