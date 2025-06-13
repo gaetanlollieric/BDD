@@ -9,7 +9,7 @@ WbImport -file=/home/etuinfo/glollieric/Documents/BDD/partie2/v_candidatures.csv
 
 
 
-CREATE table _candidature_temp(
+CREATE table _candidature_temporaire(
     ine char(11),
     dominante varchar(100),
     specialite varchar(100),
@@ -18,7 +18,7 @@ CREATE table _candidature_temp(
 );
 
 
-create table _inscription_temp(
+create table _inscription_tempo(
     cat_socio_etu varchar(100),
     cat_socio_parent varchar(100),
     ine char(11),
@@ -59,19 +59,22 @@ INSERT INTO _etudiant (
     mois_annee_obtention_bac,
     ine
 )
+         
 SELECT DISTINCT
-    i.code_nip,
-    i.cat_socio_etu,
-    i.cat_socio_parent,
-    i.bourse_sup,
-    i.mention,
-    c.serie,
-    c.dominante,
-    c.specialite,
-    c.mois_annee_obtention_bac,
-    i.ine
-FROM _inscription_temp i
-JOIN _candidature_temp c ON i.ine = c.ine
+    ins_t.code_nip,
+    ins_t.cat_socio_etu,
+    ins_t.cat_socio_parent,
+    ins_t.bourse_sup,
+    ins_t.mention,
+    can_t.serie,
+    can_t.dominante,
+    can_t.specialite,
+    can_t.mois_annee_obtention_bac,
+    ins.ine
+
+         
+FROM _inscription_tempo ins_t
+JOIN _candidature_temporaire can_t ON i.ine = c.ine
 ON CONFLICT (code_nip) DO NOTHING;
 
 
